@@ -1,0 +1,30 @@
+server:
+  port : 8081
+
+spring:
+  rabbitmq:
+    host: rabbitmq1
+    port: 5672
+    username: guest
+    password: guest
+    listener:
+      simple:
+        retry:
+          max-attempts: 3
+          enabled: true
+
+
+queue:
+  membershipHealthPlan: membershipHealthPlan.queue
+  membershipHealthPlanCode: membershipHealthPlanCode.queue
+  healthPlanCard : healthPlanCard.queue
+  healthPlanCardCode : healthPlanCardCode.queue
+  appointmentScheduler: appointmentScheduler.queue
+
+exchange:
+  membershipHealthPlanCode: membershipHealthPlanCode.exchange
+  healthPlanCardCode: healthPlanCardCode.exchange
+
+routingKey:
+  membershipHealthPlanCode: membershipHealthPlanCode.routingKey
+  healthPlanCardCode: healthPlanCardCode.routingKey

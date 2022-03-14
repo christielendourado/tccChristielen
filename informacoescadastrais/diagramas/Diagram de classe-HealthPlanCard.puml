@@ -1,0 +1,70 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface UserRepository {
+    User findByUsernameAndPassword(String username, String password)
+    User findByUsername(String username)
+}
+
+interface AssociateRepository{
+    public Associate findByUser(ObjectId id)
+    public Associate findByCpf(String cpf)
+}
+
+interface MembershipHealthPlanRepository {
+    public MembershipHealthPlan findByAssociate(ObjectId id)
+}
+
+class HealthPlanCardService {
+    public void add(String username) throws Exception
+    public void generateCode(MembershipHealthPlan membershipHealthPlan) throws Exception
+}
+
+class JwtTokenProvider {
+    public String createToken(String username) throws IOException
+}
+
+class Kong {
+    public Map<String, String> criarConsumerJWT(String usuario) throws IOException
+}
+
+class HealthPlanCardSender {
+    public void send(HealthPlanCardJson membershipHealthPlanJson) throws Exception
+}
+
+class HealthPlanCardJson {
+	private String membershipHealthPlanCode;
+	private String objectId;
+}
+
+class HealthPlanCardController {
+   public void addMembershipHealthPlan(String token) throws Exception
+}
+
+class HealthPlanCardCodeJson{
+	private String healthCard;
+	private String objectId;
+}
+
+class HealthPlanCardCodeConsumer {
+    public void process(final HealthPlanCardCodeJson healthPlanCardCodeJson) throws Exception
+}
+
+class HealthPlanCardSenderConfig{
+    public Queue queueHealthPlanCard()
+    DirectExchange exchangeHealthPlanCard()
+    Binding healthPlanCardBinding(Queue queueHealthPlanCard, DirectExchange exchangeHealthPlanCard)
+}
+
+MembershipHealthPlanRepository <|-- HealthPlanCardCodeConsumer
+HealthPlanCardCodeJson <|-- HealthPlanCardCodeConsumer
+HealthPlanCardSender  <|-- HealthPlanCardService
+MembershipHealthPlanRepository  <|-- HealthPlanCardService
+AssociateRepository <|-- HealthPlanCardService
+UserRepository <|-- HealthPlanCardService
+HealthPlanCardJson <|-- HealthPlanCardController
+HealthPlanCardService <|-- HealthPlanCardController
+JwtTokenProvider <|-- HealthPlanCardController
+Kong <|-- JwtTokenProvider
+
+@enduml

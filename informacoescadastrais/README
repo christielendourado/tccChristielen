@@ -1,0 +1,20 @@
+Foi utilizado a API Gateway Kong que será responsável pela autenticação e autorização da requisição.
+Os microserviços foram desenvolvidos utilizando Java 11 e Spring Boot e sua comunicação será via REST.
+O banco de dados não relacional utilizado é o MongoDB.
+Para conteinerização foi utilizado Docker.
+
+Pré-requisito - Docker
+
+A partir da raiz do workspace utilizar o comando docker-compose up -d
+
+A documentação dos endpoints bem como os testes podem ser realizados na url abaixo:
+http://localhost:7000/swagger-ui/index.html?url=/v3/api-docs
+
+Url para login:
+(POST) http://localhost:8000/login
+
+Usuário cadastrado:
+{
+    "username": "associado",
+    "password": "associado123"
+}

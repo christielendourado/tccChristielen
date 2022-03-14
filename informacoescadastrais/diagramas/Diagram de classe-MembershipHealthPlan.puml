@@ -1,0 +1,92 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface UserRepository {
+    User findByUsernameAndPassword(String username, String password)
+    User findByUsername(String username)
+}
+
+interface AssociateRepository{
+    public Associate findByUser(ObjectId id)
+    public Associate findByCpf(String cpf)
+}
+
+interface HealthPlanRepository {
+    HealthPlan findByCode(String code)
+}
+
+interface StatusRepository {
+    Status findByDescription(String description)
+}
+
+interface MembershipHealthPlanRepository {
+    public MembershipHealthPlan findByAssociate(ObjectId id)
+}
+
+class MembershipHealthPlanService {
+    public MembershipHealthPlan add(String username, MembershipHealthPlanJson membershipHealthPlanJson) throws Exception
+    public void generateCode(ObjectId objectId, Associate associate, BigDecimal value, MembershipHealthPlanJson membershipHealthPlanJson) throws Exception {
+    public MembershipHealthPlan get(String username) throws NotAssociateException 
+}
+
+class MembershipHealthPlanJson{
+	private String healthPlanCode;
+	private Boolean dental;
+	private String associado;
+	private BigDecimal value;
+	private String objectId;
+}
+
+class MembershipHealthPlanSender {
+    public void send(MembershipHealthPlanJson membershipHealthPlanJson) throws Exception 
+}
+
+MembershipHealthPlanJson <|-- MembershipHealthPlanSender
+
+class MembershipHealthPlanController {
+    public MembershipHealthPlan addMembershipHealthPlan(MembershipHealthPlanJson membershipHealthPlanJson, String token) throws Exception 
+    public MembershipHealthPlan getMembershipHealthPlan(String token) throws Exception 
+}
+
+class JwtTokenProvider {
+    public String createToken(String username) throws IOException 
+}
+
+class Kong {
+    public Map<String, String> criarConsumerJWT(String usuario) throws IOException 
+}
+
+class MembershipHealthPlanSenderConfig {
+    public Queue queueMembershipHealthPlan()
+    DirectExchange exchangeMembershipHealthPlan()
+    Binding membershipHealthPlanBinding(Queue queueMembershipHealthPlan, DirectExchange exchangeMembershipHealthPlan)
+}
+
+interface MembershipHealthPlanRepository{
+    public MembershipHealthPlan findByAssociate(ObjectId id)
+}
+
+class MembershipHealthPlanCodeJson{
+	private String objectId;
+	private String code;
+}
+
+class MembershipHealthPlanCodeConsumer {
+    public void process(final MembershipHealthPlanCodeJson membershipHealthPlanCodeJson) throws Exception
+}
+
+MembershipHealthPlanCodeJson  <|-- MembershipHealthPlanCodeConsumer
+MembershipHealthPlanRepository  <|-- MembershipHealthPlanCodeConsumer
+
+UserRepository <|-- MembershipHealthPlanService
+AssociateRepository <|-- MembershipHealthPlanService
+HealthPlanRepository <|-- MembershipHealthPlanService
+StatusRepository <|-- MembershipHealthPlanService
+MembershipHealthPlanRepository <|-- MembershipHealthPlanService
+MembershipHealthPlanSender <|-- MembershipHealthPlanService
+
+MembershipHealthPlanService <|-- MembershipHealthPlanController
+JwtTokenProvider <|-- MembershipHealthPlanController
+Kong <|-- JwtTokenProvider
+
+@enduml

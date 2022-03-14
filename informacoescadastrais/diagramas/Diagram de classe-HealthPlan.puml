@@ -1,0 +1,24 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface HealthPlanRepository {
+    HealthPlan findByCode(String code)
+}
+
+class JwtTokenProvider {
+    public String createToken(String username) throws IOException
+}
+
+class Kong {
+    public Map<String, String> criarConsumerJWT(String usuario) throws IOException
+}
+
+class HealthPlanController {
+   public List<HealthPlan> findAll(String token)
+}
+
+HealthPlanRepository <|-- HealthPlanController
+JwtTokenProvider <|-- HealthPlanController
+Kong <|-- JwtTokenProvider
+
+@enduml

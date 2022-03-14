@@ -1,0 +1,65 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface UserRepository {
+    User findByUsernameAndPassword(String username, String password)
+    User findByUsername(String username)
+}
+
+interface ConvenedRepository{
+    public Convened findByUser(ObjectId id)
+}
+
+interface MembershipHealthPlanRepository {
+    public MembershipHealthPlan findByAssociate(ObjectId id)
+}
+
+interface AssociateRepository{
+    public Associate findByUser(ObjectId id)
+    public Associate findByCpf(String cpf)
+}
+
+class JwtTokenProvider {
+    public String createToken(String username) throws IOException
+}
+
+class Kong {
+    public Map<String, String> criarConsumerJWT(String usuario) throws IOException
+}
+
+
+class AppointmentSchedulerSender{
+    public String send(AppointmentSchedulerPlanJson appointmentSchedulerPlanJson) throws Exception
+}
+
+class AppointmentSchedulerService {
+    public String authorization(String username, AppointmentSchedulerPlanJson appointmentSchedulerPlanJson) throws Exception
+}
+
+class AppointmentSchedulerPlanJson {
+	private String exameCode;
+	private String associateCpf;
+	private String healthPlanCard;
+}
+
+class AppointmentSchedulerController {
+    public String authorization(AppointmentSchedulerPlanJson appointmentSchedulerPlanJson, String token) throws Exception
+}
+
+class AppointmentSchedulerConfig {
+    public Queue queueAppointmentScheduler()
+    DirectExchange exchangeAppointmentScheduler()
+    Binding appointmentSchedulerBinding(Queue queueAppointmentScheduler, DirectExchange exchangeAppointmentScheduler)
+}
+
+AppointmentSchedulerSender <|-- AppointmentSchedulerService
+MembershipHealthPlanRepository <|-- AppointmentSchedulerService
+ConvenedRepository <|-- AppointmentSchedulerService
+AssociateRepository <|-- AppointmentSchedulerService
+UserRepository <|-- AppointmentSchedulerService
+AppointmentSchedulerPlanJson <|-- AppointmentSchedulerController
+AppointmentSchedulerService <|-- AppointmentSchedulerController
+JwtTokenProvider <|-- AppointmentSchedulerController
+Kong <|-- JwtTokenProvider
+
+@enduml

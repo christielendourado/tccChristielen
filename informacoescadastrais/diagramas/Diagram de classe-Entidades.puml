@@ -1,0 +1,76 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class AgeGroup {
+	private ObjectId id
+	private String description
+	private Integer initialAge
+	private Integer finalAge
+}
+
+class AgeGroupValues {
+	private ObjectId id
+	private AgeGroup ageGroup
+	private BigDecimal value
+}
+
+class User {
+	private ObjectId id
+	private String username
+	private String password
+	private UserType userType
+}
+
+class Associate {
+    private ObjectId id
+    private String cpf
+    private String birthDate
+    private User user
+}
+
+class Convened {
+    private ObjectId id
+    private User user
+}
+
+class PlanType {
+	private ObjectId id
+	private String description
+	private Boolean dental
+	private Boolean coparticipation
+}
+
+class HealthPlan {
+	private ObjectId id
+	private String code
+	private String name
+	private PlanType planType
+	private List<AgeGroupValues> ageGroupValues
+}
+
+class Status {
+	private ObjectId id
+	private String description
+}
+
+class MembershipHealthPlan {
+	private ObjectId id
+	private String code
+	private Associate associate
+	private Status status
+	private HealthPlan healthPlan
+	private BigDecimal value
+	private Boolean dental
+	private String healthPlanCard
+}
+
+AgeGroup <|-- AgeGroupValues
+User <|-- Associate
+User <|-- Convened
+PlanType <|-- HealthPlan
+AgeGroupValues <|-- HealthPlan
+Associate <|-- MembershipHealthPlan
+Status <|-- MembershipHealthPlan
+HealthPlan  <|-- MembershipHealthPlan
+
+@enduml

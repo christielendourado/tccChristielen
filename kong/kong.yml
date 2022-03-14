@@ -1,0 +1,95 @@
+_format_version: "1.1"
+services:
+  - name: informacoescadastrais-login
+    protocol: http
+    host: informacoescadastrais
+    port: 8080
+    path: /
+    plugins: []
+    routes:
+      - tags:
+          - OAS3_import
+          - OAS3file_openapi.json
+        name: informacoescadastrais-login
+        methods:
+          - POST
+        paths:
+          - /login$
+        strip_path: false
+    tags:
+      - OAS3_import
+      - OAS3file_openapi.json
+
+  - name: informacoescadastrais-api
+    protocol: http
+    host: informacoescadastrais
+    port: 8080
+    path: /
+    plugins: []
+    routes:
+      - tags:
+          - OAS3_import
+          - OAS3file_openapi.json
+        name: informacoescadastrais-addMembershipHealthPlan
+        methods:
+          - POST
+        paths:
+          - /membershipHealthPlan/add$
+        strip_path: false
+      - tags:
+          - OAS3_import
+          - OAS3file_openapi.json
+        name: informacoescadastrais-addMembershipHealthPlan_1
+        methods:
+          - POST
+        paths:
+          - /healthPlanCard/add$
+        strip_path: false
+      - tags:
+          - OAS3_import
+          - OAS3file_openapi.json
+        name: informacoescadastrais-getMembershipHealthPlan
+        methods:
+          - GET
+        paths:
+          - /membershipHealthPlan$
+        strip_path: false
+      - tags:
+          - OAS3_import
+          - OAS3file_openapi.json
+        name: informacoescadastrais-all
+        methods:
+          - GET
+        paths:
+          - /healthPlan$
+        strip_path: false
+      - tags:
+          - OAS3_import
+          - OAS3file_openapi.json
+        name: informacoescadastrais-authorization
+        methods:
+          - POST
+        paths:
+          - /appointmentScheduler$
+        strip_path: false
+    tags:
+      - OAS3_import
+      - OAS3file_openapi.json
+
+plugins:
+  - name: jwt
+    service: informacoescadastrais-api
+    enabled: true
+    config:
+      key_claim_name: iss
+      claims_to_verify:
+        - exp
+
+consumers:
+  - username: associado
+  - username: conveniado
+jwt_secrets:
+  - consumer: associado
+    secret: "secret-hash-brown-bear-market-rate-limit"
+  - consumer: conveniado
+    secret: "secret-hash-brown-bear-market-rate-limit"

@@ -1,0 +1,41 @@
+spring:
+  data:
+    mongodb:
+      host: mongodb
+      port: 27017
+      database: informacoescadastrais-db
+      username: informacoescadastrais
+      password: informacoescadastrais123
+  rabbitmq:
+    host: rabbitmq1
+    port: 5672
+    username: guest
+    password: guest
+    listener:
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 1000
+          max-attempts: 3
+          max-interval: 10000
+          multiplier: 2.0
+
+queue:
+  membershipHealthPlan: membershipHealthPlan.queue
+  membershipHealthPlanCode: membershipHealthPlanCode.queue
+  healthPlanCard: healthPlanCard.queue
+  healthPlanCardCode: healthPlanCardCode.queue
+
+exchange:
+  membershipHealthPlan: membershipHealthPlan.exchange
+  healthPlanCard: healthPlanCard.exchange
+
+routingKey:
+  membershipHealthPlan: membershipHealthPlan.routingKey
+  healthPlanCard: healthPlanCard.rountingKey
+
+token:
+  validate: 86400000
+
+kong:
+  link: http://kong:8001

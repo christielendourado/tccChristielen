@@ -1,0 +1,31 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface UserRepository {
+    User findByUsernameAndPassword(String username, String password)
+    User findByUsername(String username)
+}
+
+class JwtTokenProvider {
+    public String createToken(String username) throws IOException
+}
+
+class Kong {
+    public Map<String, String> criarConsumerJWT(String usuario) throws IOException
+}
+
+class LoginController {
+    public String login(AccountCredentials accountCredentials)
+}
+
+class AccountCredentials {
+	private String username
+	private String password
+}
+
+UserRepository <|-- LoginController
+JwtTokenProvider <|-- LoginController
+AccountCredentials <|-- LoginController
+Kong <|-- JwtTokenProvider
+
+@enduml
