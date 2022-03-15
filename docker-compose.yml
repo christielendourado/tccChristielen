@@ -70,7 +70,7 @@ services:
       - "1337:1337"
 
   informacoescadastrais:
-    build: ./informacoescadastrais
+    image: christielendourado/informacoescadastrais:tagname
     ports:
       - 7000:8080
     networks:
@@ -81,7 +81,7 @@ services:
       unless-stopped
 
   integrativo:
-    build: ./integrativo
+    build: christielendourado/integrativo:tagname
     ports:
       - 7001:8081
     networks:
